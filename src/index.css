@@ -1,0 +1,70 @@
+body {
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+header {
+  padding: 24px 36px;
+  font-size: 2rem;
+}
+nav {
+  background-color: #333;
+  display: inline-block;
+  width: 100%;
+  clear: both;
+}
+nav a {
+  color: white;
+}
+nav div {
+  float: left;
+  padding: 12px 36px;
+}
+
+main {
+  background-color: white;
+}
+
+article {
+  padding: 1px 36px 36px 36px;
+}
+article header {
+  padding: 0;
+}
+article h1 {
+  margin: 24px 0 6px 0;
+}
+.comment-list {
+  margin-top: 12px;
+  border-top: 1px solid #333;
+}
+.comment-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 12px;
+}
+.comment-wrapper .score {
+  flex: 1;
+  flex-wrap: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1.6rem;
+  max-width: 60px;
+  max-height: 60px;
+  background-color: magenta;
+  color: white;
+  line-height: 3rem;
+  padding: 6px;
+}
+.comment-wrapper .comment {
+  flex: 2;
+  padding: 0 12px;
+}
+.comment h4 {
+  margin: 12px 0 6px 0;
+  font-size: 1.2rem;
+}
+footer {
+  padding: 36px;
+}
