@@ -3,13 +3,13 @@ import * as API from '../utils/api';
 // GET_ALL_CATEGORIES
 export const GET_CATEGORIES = 'GET_CATEGORIES'
 
-export const getCategories = categories => ({
+export const getCategories = category => ({
     type: GET_CATEGORIES,
-    categories
+    category
 })
 
 export const fetchCategories = () => dispatch => (
     API
         .getCategories()
-        .then(categories => dispatch(getCategories(categories)))
+        .then(category => dispatch(getCategories(category)))
 );

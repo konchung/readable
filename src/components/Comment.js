@@ -1,17 +1,24 @@
 import React from 'react';
-// import { redux } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import ScoreVoting from './ScoreVoting';
 
 class Comment extends React.Component {
+    static proptypes = {
+        comment: PropTypes.object.isRequired
+    }
+
     render() {
+        const { comment } = this.props;
+
         return (
             <div className="comment-wrapper">
-                <div className="score">1222</div>
+                <ScoreVoting score={comment.voteScore} comment_id={comment.id} />
                 <div className="comment">
-                    <h4>Comment Title</h4>
-                    <div>By Konway Chung on Jun 8, 2017</div>
                     <div className="comment-body">
-                        Comment
+                        {comment.body}
                     </div>
+                    <small>By {comment.author} on {new Date(comment.timestamp).toDateString()}</small>
                 </div>
             </div>
         )

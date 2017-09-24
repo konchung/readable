@@ -3,38 +3,41 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { capitalize } from '../utils/helpers';
 import PostList from './PostList';
-import { fetchCategories } from '../actions/category';
-// import * as API from '../utils/api';
+import * as Actions from '../actions';
+import { bindActionCreators } from 'redux';
+import { withRouter, Route, Link } from 'react-router-dom';
 
 class App extends Component {
   static propTypes = {
-    categories: PropTypes.array.isRequired
+    category: PropTypes.array.isRequired
   }
 
-  componentDidMount() {
-    // API.getCategories().then(categories => console.log(categories));
+  componentWillMount() {
+    this.props.actions.fetchCategories();
   }
 
   render() {
-    const { categories } = this.props;
+    const { category } = this.props;
 
     return (
       <div>
         <header>Readable</header>
         <nav>
           <div>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </div>
-          {/* {categories.map((c, i) => (
+          {category.map((c, i) => (
             <div key={i}>
-              <a href={c.path}>
+              <Link to={`/${c.path}`}>
                 {capitalize(c.name)}
-              </a>
+              </Link>
             </div>
-          ))} */}
+          ))}
         </nav>
         <main>
-          <PostList />
+          <Route exact path="/" component={PostList} />
+          <Route exact path="/:category/:post_id" component={PostList} />
+          <Route path="/:category" component={PostList} />
         </main>
         <footer>
           &copy; 2017.  All rights reserved.
@@ -44,17 +47,20 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ categories }) => {
+const mapStateToProps = ({ category }) => {
   return {
-    categories: categories
+    ...category
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+function mapDispatchToProps(dispatch) {
   return {
-    categories: (data) => dispatch(fetchCategories()),
-    // posts: (data) => dispatch()
+    actions: bindActionCreators(Actions.default, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App));

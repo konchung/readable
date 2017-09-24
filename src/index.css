@@ -4,6 +4,12 @@ body {
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 header {
   padding: 24px 36px;
   font-size: 2rem;
@@ -27,13 +33,26 @@ main {
 }
 
 article {
-  padding: 1px 36px 36px 36px;
+  padding: 12px 36px 12px 36px;
 }
 article header {
   padding: 0;
+  font-size: 1rem;
 }
 article h1 {
-  margin: 24px 0 6px 0;
+  font-size: 1.4rem;
+  line-height: 1.5rem;
+  margin: 12px 0 0 0;
+}
+article small{
+  font-size: .8rem;
+  line-height: 1.1rem;
+}
+article .content {
+  padding-top: 24px;
+}
+article + article {
+  border-top: 1px solid magenta
 }
 .comment-list {
   margin-top: 12px;
@@ -44,19 +63,6 @@ article h1 {
   flex-direction: row;
   margin-top: 12px;
 }
-.comment-wrapper .score {
-  flex: 1;
-  flex-wrap: nowrap;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 1.6rem;
-  max-width: 60px;
-  max-height: 60px;
-  background-color: magenta;
-  color: white;
-  line-height: 3rem;
-  padding: 6px;
-}
 .comment-wrapper .comment {
   flex: 2;
   padding: 0 12px;
@@ -64,6 +70,29 @@ article h1 {
 .comment h4 {
   margin: 12px 0 6px 0;
   font-size: 1.2rem;
+}
+.score-bar {
+  display: flex;
+}
+.score-bar button, .score-bar .score {
+  flex: 1;
+  margin-right: 12px;
+  max-width: 70px;
+  max-height: 36px;
+  border-radius: 6px;
+}
+.score {
+  flex: 1;
+  flex-wrap: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1rem;
+  min-width: 36px;
+  max-height: 36px;
+  background-color: magenta;
+  color: white;
+  line-height: 1rem;
+  padding: 6px;
 }
 footer {
   padding: 36px;
