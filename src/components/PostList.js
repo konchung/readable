@@ -26,8 +26,19 @@ class PostList extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        // console.log(nextProps);
+    componentWillUnmount() {
+        const { actions, match } = this.props;
+
+        switch (match.path) {
+            case '/:category':
+                actions.fetchCategoryPosts(match.params.category);
+                break;
+            case '/:category/:post_id':
+                actions.fetchPost(match.params.post_id);
+                break;
+            default:
+                actions.fetchPosts();
+        }
     }
 
     render() {
@@ -48,9 +59,9 @@ class PostList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ post }) => {
+const mapStateToProps = ({ postReducer }) => {
     return {
-        ...post
+        ...postReducer
     }
 }
 

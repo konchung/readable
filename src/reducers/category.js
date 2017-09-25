@@ -1,14 +1,12 @@
-import {
-    GET_CATEGORIES
-} from '../actions/category'
+import * as ActionTypes from '../actions/actionTypes'
 
 const initialCategoryState = {
     category: [{name: 'react', path: 'react'}]
 }
 
-const category = (state = initialCategoryState, action) => {
+const categoryReducer = (state = initialCategoryState, action) => {
     switch (action.type) {
-        case GET_CATEGORIES:
+        case ActionTypes.GET_CATEGORIES:
             return {
                 ...state,
                 category: action.category
@@ -18,4 +16,4 @@ const category = (state = initialCategoryState, action) => {
     }
 }
 
-export default category
+export default categoryReducer

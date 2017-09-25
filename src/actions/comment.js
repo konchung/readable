@@ -1,12 +1,8 @@
-// CREATE_COMMENT, CREATE_COMMENT_SUCCESS, GET_ALL_COMMENTS, UPDATE_COMMENT, UPDATE_COMMENT_SUCCESS
-
+import * as ActionTypes from './actionTypes'
 import * as API from '../utils/api';
 
-// GET_ALL_CATEGORIES
-export const GET_COMMENTS = 'GET_COMMENTS'
-
 export const getComments = (post_id, comment) => ({
-    type: GET_COMMENTS,
+    type: ActionTypes.GET_COMMENTS,
     post_id,
     comment
 })

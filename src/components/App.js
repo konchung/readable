@@ -5,7 +5,7 @@ import { capitalize } from '../utils/helpers';
 import PostList from './PostList';
 import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
-import { withRouter, Route, Link } from 'react-router-dom';
+import { withRouter, Route, Link, Switch } from 'react-router-dom';
 
 class App extends Component {
   static propTypes = {
@@ -35,9 +35,11 @@ class App extends Component {
           ))}
         </nav>
         <main>
-          <Route exact path="/" component={PostList} />
-          <Route exact path="/:category/:post_id" component={PostList} />
-          <Route path="/:category" component={PostList} />
+          <Switch>
+            <Route exact path="/" component={PostList} />
+            <Route exact path="/:category/:post_id" component={PostList} />
+            <Route path="/:category" component={PostList} />
+          </Switch>
         </main>
         <footer>
           &copy; 2017.  All rights reserved.
@@ -47,9 +49,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ category }) => {
+const mapStateToProps = ({ categoryReducer }) => {
   return {
-    ...category
+    ...categoryReducer
   }
 }
 

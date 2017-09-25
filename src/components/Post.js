@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import ScoreVoting from './ScoreVoting';
-import Comment from './Comment';
+import CommentList from './CommentList';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
@@ -15,33 +15,21 @@ class Post extends React.Component {
     }
 
     componentWillMount() {
-        //this.props.actions.fetchComments(this.props.post.id);
+        this.props.actions.fetchComments(this.props.post.id)
     }
-
+    
     render() {
-        const { post } = this.props;
+        const { post, withComments, comment } = this.props;
+        const numComment = comment.filter(c => c.parentId === post.id).length
 
         let body;
-        let commentList;
         let commandBar;
-        console.log(post)
-        if (this.props.withComments) {
+
+        if (withComments) {
             body = (
                 <div className="content">
                     {post.body}
-                </div>
-            );
-            commentList = (
-                <div className="comment-list">
-                    {/* {post.comment.map((d, i) => (
-                        <Comment key={i} comment={d} />
-                    ))} */}
-                </div>
-            );
-        } else {
-            commandBar = (
-                <div>
-                    {/* <Link to={`/${post.category}/${post.id}`}>{post.comment.length} comments</Link> */}
+                    <CommentList postId={post.id} />
                 </div>
             );
         }
@@ -52,12 +40,12 @@ class Post extends React.Component {
                 <header>
                     <h1 itemProp="name"><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></h1>
                     <small>
-                        <div>submitted on {new Date(post.timestamp).toDateString()} by {post.author}</div>
-                        {commandBar}
+                        <div>
+                            submitted on {new Date(post.timestamp).toDateString()} by {post.author} with <Link to={`/${post.category}/${post.id}`}>{numComment} comments</Link>
+                        </div>
                     </small>
                 </header>
-                {body}
-                {commentList}
+                {body}                
             </article>
         )
     }
@@ -67,6 +55,12 @@ Post.defaultProps = {
     withComments: false
 };
 
+const mapStateToProps = ({ commentReducer }) => {
+    return {
+      ...commentReducer
+    }
+  }
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(Actions.default, dispatch)
@@ -75,6 +69,6 @@ function mapDispatchToProps(dispatch) {
 
 export default withRouter(
     connect(
-        null,
+        mapStateToProps,
         mapDispatchToProps
     )(Post));
