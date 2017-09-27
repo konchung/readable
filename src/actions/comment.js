@@ -7,6 +7,10 @@ export const getComments = (post_id, comment) => ({
     comment
 })
 
+export const clearComment = () => ({
+    type: ActionTypes.CLEAR_COMMENT
+})
+
 export const fetchComments = (id) => dispatch => (
     API
         .getComments(id)

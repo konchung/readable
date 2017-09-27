@@ -15,9 +15,11 @@ class Post extends React.Component {
     }
 
     componentWillMount() {
-        this.props.actions.fetchComments(this.props.post.id)
+        const { actions, post, match } = this.props
+
+        actions.fetchComments(post.id)
     }
-    
+
     render() {
         const { post, withComments, comment } = this.props;
         const numComment = comment.filter(c => c.parentId === post.id).length
@@ -45,7 +47,7 @@ class Post extends React.Component {
                         </div>
                     </small>
                 </header>
-                {body}                
+                {body}
             </article>
         )
     }
@@ -55,11 +57,12 @@ Post.defaultProps = {
     withComments: false
 };
 
-const mapStateToProps = ({ commentReducer }) => {
+const mapStateToProps = ({ postReducer, commentReducer }) => {
     return {
-      ...commentReducer
+        // ...postReducer,
+        ...commentReducer
     }
-  }
+}
 
 function mapDispatchToProps(dispatch) {
     return {

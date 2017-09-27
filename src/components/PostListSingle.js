@@ -6,14 +6,15 @@ import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-class PostList extends React.Component {
+class PostListSingle extends React.Component {
     static propTypes = {
         post: PropTypes.array.isRequired
     }
 
     componentWillMount() {
         const { actions, match } = this.props;
-        actions.fetchPosts();
+
+        actions.fetchPost(match.params.post_id);
         actions.clearComment();
     }
 
@@ -51,4 +52,4 @@ export default withRouter(
     connect(
         mapStateToProps,
         mapDispatchToProps
-    )(PostList));
+    )(PostListSingle));

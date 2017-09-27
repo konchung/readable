@@ -11,7 +11,7 @@ const commentReducer = (state = initialCommentState, action) => {
                 ...state,
                 comment: state.comment.concat(action.comment)
             }
-        case ActionTypes.CLEAR_COMMENTS:
+        case ActionTypes.CLEAR_COMMENT:
             return initialCommentState
         default:
             return state

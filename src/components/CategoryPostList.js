@@ -6,14 +6,20 @@ import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-class PostList extends React.Component {
+class CategoryPostList extends React.Component {
     static propTypes = {
         post: PropTypes.array.isRequired
     }
 
     componentWillMount() {
         const { actions, match } = this.props;
-        actions.fetchPosts();
+        actions.fetchCategoryPosts(match.params.category);
+        actions.clearComment();
+    }
+
+    componentWillReceiveProps() {
+        const { actions, match } = this.props;
+        actions.fetchCategoryPosts(match.params.category);
         actions.clearComment();
     }
 
@@ -51,4 +57,4 @@ export default withRouter(
     connect(
         mapStateToProps,
         mapDispatchToProps
-    )(PostList));
+    )(CategoryPostList));

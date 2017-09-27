@@ -1,6 +1,6 @@
 export const GET_CATEGORIES = 'GET_CATEGORIES'
 export const GET_COMMENTS = 'GET_COMMENTS'
-export const CLEAR_COMMENTS = 'CLEAR_COMMENTS'
+export const CLEAR_COMMENT = 'CLEAR_COMMENT'
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS'
 export const GET_POST = 'GET_POST'
