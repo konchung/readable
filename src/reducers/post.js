@@ -23,6 +23,14 @@ const postReducer = (state = initialPostState, action) => {
             }
         case ActionTypes.CLEAR_POST:
             return initialPostState
+        case ActionTypes.UPVOTE_POST:
+            return {
+                ...state
+            }
+        case ActionTypes.DOWNVOTE_POST:
+            return {
+                ...state
+            }            
         default:
             return state
     }

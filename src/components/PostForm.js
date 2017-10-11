@@ -5,7 +5,13 @@ class PostForm extends React.Component {
     render() {
         return (
             <div className="">
-                Content
+                <fieldset>
+                    <label>
+                        <div className="label">Title</div>
+                        <input />
+                    </label>
+                </fieldset>
+
             </div>
         )
     }

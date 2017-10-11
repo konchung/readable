@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { capitalize } from '../utils/helpers';
-import PostListSingle from './PostListSingle';
-import PostList from './PostList';
-import CategoryPostList from './CategoryPostList';
+
 import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
 import { withRouter, Route, Link, Switch } from 'react-router-dom';
+
+import PostListSingle from './PostListSingle';
+import PostList from './PostList';
+import PostForm from './PostForm';
+import CategoryPostList from './CategoryPostList';
+
 
 class App extends Component {
   static propTypes = {
@@ -35,14 +39,21 @@ class App extends Component {
               </Link>
             </div>
           ))}
+          <div>
+            <Link to="/posts/new">Create</Link>
+          </div>
         </nav>
         <main>
           <Switch>
             <Route exact path="/" render={()=>(
               <PostList />
             )} />
+            <Route exact path="/posts/new" component={PostForm} />
             <Route exact path="/:category/:post_id" render={()=>(
               <PostListSingle />
+            )} />
+            <Route path="/:category/:post_id/edit" render={()=>(
+              <CategoryPostList />
             )} />
             <Route path="/:category" render={()=>(
               <CategoryPostList />

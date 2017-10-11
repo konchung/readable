@@ -18,7 +18,7 @@ const headers = {
 export const getCategories = () =>
 fetch(`${api}/categories`, { headers })
   .then(res => res.json())
-  .then(data => data.categories)
+  .then(data => data.categories);
 
 // GET /:category/posts
 // USAGE:
@@ -26,7 +26,7 @@ fetch(`${api}/categories`, { headers })
 export const getCategoryPosts = (category) =>
 fetch(`${api}/${category}/posts`, { headers })
   .then(res => res.json())
-  .then(data => data)
+  .then(data => data);
 
 // GET /posts
 // USAGE:
@@ -34,7 +34,7 @@ fetch(`${api}/${category}/posts`, { headers })
 export const getPosts = () =>
 fetch(`${api}/posts`, { headers })
   .then(res => res.json())
-  .then(data => data)
+  .then(data => data);
 
 // POST /posts
 // USAGE:
@@ -49,12 +49,9 @@ fetch(`${api}/posts`, { headers })
 export const createPost = (body) =>
 fetch(`${api}/posts`, {
   method: 'POST',
-  headers: {
-    ...headers,
-    'Content-Type': 'application/json'
-  },
+  headers,
   body: JSON.stringify(body)
-}).then(res => res.json())
+}).then(res => res.json());
 
 // GET /posts/:id
 // USAGE:
@@ -69,18 +66,38 @@ fetch(`${api}/posts/${id}`, { headers })
 //   Used for voting on a post
 // PARAMS:
 //   option - String: Either "upVote" or "downVote"
-  
+export const castPostVote = (option) => (id) =>
+fetch(`${api}/posts/${id}`, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify({option})
+}).then(res => res.json());
+
 // PUT /posts/:id
 // USAGE:
 //   Edit the details of an existing post
 // PARAMS:
 //   title - String
 //   body - String
+export const updatePost = (title, body) => (id) =>
+fetch(`${api}/posts/${id}`, {
+  method: 'PUT',
+  headers,
+  body: JSON.stringify({
+    title,
+    body
+  })
+});
 
 // DELETE /posts/:id
 // USAGE:
 //   Sets the deleted flag for a post to 'true'. 
 //   Sets the parentDeleted flag for all child comments to 'true'.
+export const deletePost = (id) =>
+fetch(`${api}/posts/${id}`, {
+  method: 'DELETE',
+  headers
+})
 
 // GET /posts/:id/comments
 // USAGE:
@@ -88,7 +105,7 @@ fetch(`${api}/posts/${id}`, { headers })
 export const getComments = (id) =>
 fetch(`${api}/posts/${id}/comments`, { headers })
   .then(res => res.json())
-  .then(data => data)
+  .then(data => data);
 
 // POST /comments
 // USAGE:
@@ -99,6 +116,18 @@ fetch(`${api}/posts/${id}/comments`, { headers })
 //   body: String
 //   author: String
 //   parentId: Should match a post id in the database.
+export const createComment = (timestamp, body, author, parentId) =>
+fetch(`${api}/comments`, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify({
+    id: 'something',
+    timestamp, 
+    body, 
+    author, 
+    parentId
+  })
+}).then(res => res.json());
 
 // GET /comments/:id
 // USAGE:
@@ -106,11 +135,17 @@ fetch(`${api}/posts/${id}/comments`, { headers })
 export const getComment = (id) =>
 fetch(`${api}/comments/${id}`, { headers })
   .then(res => res.json())
-  .then(data => data)
+  .then(data => data);
 
 // POST /comments/:id
 // USAGE:
 //   Used for voting on a comment.
+export const castCommentVote = (option) => (id) =>
+fetch(`${api}/comments/${id}`, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify({ option })
+});
 
 // PUT /comments/:id
 // USAGE:
@@ -118,11 +153,22 @@ fetch(`${api}/comments/${id}`, { headers })
 // PARAMS:
 //   timestamp: timestamp. Get this however you want.
 //   body: String
+export const updateComment = (timestamp, body) => (id) =>
+fetch(`${api}/comments/${id}`, {
+  method: 'PUT',
+  headers,
+  body: JSON.stringify({
+    timestamp, 
+    body
+  })
+});
 
 // DELETE /comments/:id
 // USAGE:
 //   Sets a comment's deleted flag to 'true'
-// export const remove = (contact) =>
-// fetch(`${api}/contacts/${contact.id}`, { method: 'DELETE', headers })
-//   .then(res => res.json())
-//   .then(data => data.contact)
+export const deleteComment = (id) =>
+fetch(`${api}/comments/${id}`, {
+  method: 'DELETE', 
+  headers 
+}).then(res => res.json())
+  .then(data => data.contact);
