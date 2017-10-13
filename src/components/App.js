@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-import { capitalize } from '../utils/helpers';
-
-import * as Actions from '../actions';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { withRouter, Route, Link, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as Actions from '../actions';
 
-import PostListSingle from './PostListSingle';
+import Navigation from './Navigation';
+import PostDetail from './PostDetail';
 import PostList from './PostList';
 import PostForm from './PostForm';
-import CategoryPostList from './CategoryPostList';
-
 
 class App extends Component {
   static propTypes = {
@@ -19,45 +16,52 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchCategories();
+    const { actions } = this.props;
+    actions.fetchCategories();
+    actions.fetchPosts();
+    actions.fetchComments();
+  }
+
+  filterPostByCategory(posts, category) {
+    return posts.filter(post => post.category === category);
+  }
+
+  filterPostById(posts, id) {
+    return posts.filter(post => post.id === id)[0];
   }
 
   render() {
-    const { category } = this.props;
+    const { category, post } = this.props;
 
     return (
       <div>
         <header>Readable</header>
-        <nav>
-          <div>
-            <Link to="/">Home</Link>
-          </div>
-          {category.map((c, i) => (
-            <div key={i}>
-              <Link to={`/${c.path}`}>
-                {capitalize(c.name)}
-              </Link>
-            </div>
-          ))}
-          <div>
-            <Link to="/posts/new">Create</Link>
-          </div>
-        </nav>
+        <Navigation categories={category} />
         <main>
           <Switch>
-            <Route exact path="/" render={()=>(
-              <PostList />
-            )} />
-            <Route exact path="/posts/new" component={PostForm} />
-            <Route exact path="/:category/:post_id" render={()=>(
-              <PostListSingle />
-            )} />
-            <Route path="/:category/:post_id/edit" render={()=>(
-              <CategoryPostList />
-            )} />
-            <Route path="/:category" render={()=>(
-              <CategoryPostList />
-            )} />
+            <Route exact
+              path="/"
+              render={() => (
+                <PostList post={post} />
+              )} />
+            <Route exact
+              path="/posts/new"
+              component={PostForm} />
+            <Route
+              path="/:category/:id/edit"
+              render={({ match }) => (
+                <PostForm initialValues={this.filterPostById(post, match.params.id)} />
+              )} />
+            <Route exact
+              path="/:category/:id"
+              render={({ match }) => (
+                <PostDetail {...this.filterPostById(post, match.params.id) } />
+              )} />
+            <Route
+              path="/:category"
+              render={({ match }) => (
+                <PostList post={this.filterPostByCategory(post, match.params.category)} />
+              )} />
           </Switch>
         </main>
         <footer>
@@ -68,9 +72,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ categoryReducer }) => {
+const mapStateToProps = ({ categoryReducer, postReducer }) => {
   return {
-    ...categoryReducer
+    ...categoryReducer,
+    ...postReducer
   }
 }
 

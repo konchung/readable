@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 const api = "http://localhost:5001"
 
 
@@ -46,11 +48,15 @@ fetch(`${api}/posts`, { headers })
 //   body - String
 //   author - String
 //   category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
-export const createPost = (body) =>
+export const createPost = (data) =>
 fetch(`${api}/posts`, {
   method: 'POST',
   headers,
-  body: JSON.stringify(body)
+  body: JSON.stringify({
+    id: v4,
+    timestamp: Date.now(),
+    ...data
+  })
 }).then(res => res.json());
 
 // GET /posts/:id
@@ -116,15 +122,14 @@ fetch(`${api}/posts/${id}/comments`, { headers })
 //   body: String
 //   author: String
 //   parentId: Should match a post id in the database.
-export const createComment = (timestamp, body, author, parentId) =>
+export const createComment = (parentId, data) =>
 fetch(`${api}/comments`, {
   method: 'POST',
   headers,
   body: JSON.stringify({
-    id: 'something',
-    timestamp, 
-    body, 
-    author, 
+    id: v4,
+    timestamp: Date.now(), 
+    ...data,
     parentId
   })
 }).then(res => res.json());
@@ -153,12 +158,12 @@ fetch(`${api}/comments/${id}`, {
 // PARAMS:
 //   timestamp: timestamp. Get this however you want.
 //   body: String
-export const updateComment = (timestamp, body) => (id) =>
+export const updateComment = (body) => (id) =>
 fetch(`${api}/comments/${id}`, {
   method: 'PUT',
   headers,
   body: JSON.stringify({
-    timestamp, 
+    timestamp: Date.now(), 
     body
   })
 });

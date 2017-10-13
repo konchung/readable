@@ -54,6 +54,27 @@ article .content {
 article + article {
   border-top: 1px solid magenta
 }
+form {
+  max-width: 928px;
+  margin: 0 auto;
+  padding: 48px;
+}
+fieldset {
+  border: 0;
+  background: none;
+  padding: 0;
+}
+fieldset + fieldset {
+  margin-top: 24px;
+}
+input, select {
+  font-size: 1.8em;
+  width: 100%;
+}
+input[type='submit'] {
+  height: 2em;
+  background-color: magenta;
+}
 .comment-list {
   margin-top: 12px;
   border-top: 1px solid #333;
@@ -71,6 +92,7 @@ article + article {
   margin: 12px 0 6px 0;
   font-size: 1.2rem;
 }
+
 .score-bar {
   display: flex;
 }

@@ -1,54 +1,28 @@
 import React from 'react';
-import Post from './Post';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-import * as Actions from '../actions';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
+import SortBar from './SortBar';
+import PostListItem from './PostListItem';
 
 class PostList extends React.Component {
-    static propTypes = {
-        post: PropTypes.array.isRequired
-    }
+  static propTypes = {
+    post: PropTypes.array.isRequired
+  }
 
-    componentWillMount() {
-        const { actions, match } = this.props;
-        actions.fetchPosts();
-        actions.clearComment();
-    }
+  render() {
+    const { post, match } = this.props;
 
-    render() {
-        const { post, match } = this.props;
-
-        let withComments = false;
-        if (match.params.post_id) {
-            withComments = true
-        }
-
-        return (
-            <div className="post-listing">
-                {post.map((p, i) => (
-                    <Post key={i} post={p} withComments={withComments} />
-                ))}
-            </div>
-        )
-    }
+    return (
+      <div className="post-listing">
+        <SortBar />
+        {post.length === 0 ?
+          <p>No post found</p>
+          :
+          post.map(p => (
+            <PostListItem key={p.id} {...p} />
+          ))}
+      </div>
+    )
+  }
 }
 
-const mapStateToProps = ({ postReducer }) => {
-    return {
-        ...postReducer
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(Actions.default, dispatch)
-    }
-}
-
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(PostList));
+export default PostList;
